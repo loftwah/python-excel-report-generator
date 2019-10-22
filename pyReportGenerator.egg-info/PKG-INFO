@@ -1,0 +1,41 @@
+Metadata-Version: 1.1
+Name: pyReportGenerator
+Version: 0.1
+Summary: A simple Django app to conduct Web-based polls.
+Home-page: https://www.example.com/
+Author: Roomey
+Author-email: yourname@example.com
+License: BSD License
+Description: ============
+        Excel Report
+        ============
+        
+        Excel report is a simple Django app to export excel report.
+        
+        
+        Quick Start
+        ------------
+        
+        1. Add "reportGenerator" to your INSTALLED_APPS setting like this:
+        
+        	INSTALLED_APPS = [
+        		...
+        		'reportGenerator',
+        	]
+        
+        2. Include the reportGenerator URLconf in your project urls.py like this:
+        
+        	path('excel_export/', include('reportGenerator.urls')),
+        
+Platform: UNKNOWN
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 2.2
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
