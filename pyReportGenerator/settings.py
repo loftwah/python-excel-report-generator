@@ -25,7 +25,7 @@ SECRET_KEY = 'o20l&bdqgfqjf=7&j44tna%hxyu=v=1ae(-nqaz))bv9j9e+%e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '0.0.0.0','13.126.225.188','iofact.com']
 
 
 # Application definition
