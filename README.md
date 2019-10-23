@@ -108,7 +108,7 @@ dfJson = [
          'Persons witBreakdownh.Total.Total': 40,
          },
         {
-         'Activities/Head of Expenditure': 'Project Inspection',
+         'Activities': 'Project Inspection',
          'Target': 100,
          'Persons Breakdown.Male': 10,
          'Persons Breakdown.Female': 10,
