@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+try:
+    from local_settings import *
+except ImportError:
+    pass
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,7 +31,7 @@ SECRET_KEY = 'o20l&bdqgfqjf=7&j44tna%hxyu=v=1ae(-nqaz))bv9j9e+%e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '0.0.0.0','13.126.225.188','iofact.com', 'excel.iofact.com']
 
 
 # Application definition
