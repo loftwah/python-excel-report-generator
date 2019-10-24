@@ -197,3 +197,6 @@ with open('/home/roomey/report.xlsx', 'wb') as f:
 f.close()
 
 ```
+![alt text][sample output]
+
+[sample output]: https://github.com/devnesthq/python-excel-report-generator/blob/master/Example/Sample%20Output
