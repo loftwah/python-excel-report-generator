@@ -101,6 +101,102 @@ data = {
 excelReport = requests.post("http://excel.iofact.com/api/excel_export", json=data)
 ```
 
+### Sample Code Example in python
+* Step 1: Preparing the data (header and df)
+
+```python
+header = [{
+        "column": "A1:A2",
+        "title": "Col 1",
+        "font": {
+            "font_size": "11",
+            'font_family': "Calibri",
+            "bold": True,
+            "italic": False,
+            "underline": "none",
+            "color": "FF000000"
+        },
+        "alignment": {
+            "horizontal": "center",
+            "vertical": "center"
+        }
+    },
+    {
+        "column": "B1:C1",
+        "title": "Col 2",
+        "font": {
+            "font_size": "11",
+            'font_family': "Calibri",
+            "bold": True,
+            "italic": False,
+            "underline": "none",
+            "color": "FF000000"
+        },
+        "alignment": {
+            "horizontal": "center",
+            "vertical": "center"
+        }
+    },
+    {
+        "column": "B2:B2",
+        "title": "Col 2.1",
+        "font": {
+            "font_size": "11",
+            'font_family': "Calibri",
+            "bold": True,
+            "italic": False,
+            "underline": "none",
+            "color": "FF000000"
+        },
+        "alignment": {
+            "horizontal": "center",
+            "vertical": "center"
+        }
+    },
+    {
+        "column": "C2:C2",
+        "title": "Col 2.2",
+        "font": {
+            "font_size": "11",
+            'font_family': "Calibri",
+            "bold": True,
+            "italic": False,
+            "underline": "none",
+            "color": "FF000000"
+        },
+        "alignment": {
+            "horizontal": "center",
+            "vertical": "center"
+        }
+    }
+]
+
+df = {
+    "col 1": [15, 16, 17, 18],
+    "col 2.1": [25, 26, 27, 28],
+    "col 2.2": [33, 34, 35, 36],
+}
+
+data = {
+    "header": header,
+    "df": df
+}
+```
+
+* Step 2: Api call for excel preparation
+
+```python
+
+import requests
+
+excelReport = requests.post("http://excel.iofact.com/api/excel_export", json = data)
+
+with open('/home/roomey/report.xlsx', 'wb') as f:
+    f.write(excelReport.content)
+
+f.close()
+
+```
 
 
 #### Code Example
