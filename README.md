@@ -54,6 +54,38 @@ import json
 JsonDf = json.dumps(dfJson)
 ```
 
+#### Sample Data preparation (API testing)
+* simple Api Data
+```json
+data = { 
+   "header":[ 
+      { 
+         "column":"A1:A3",
+         "title":"Budget"
+      },
+      { 
+         "column":"B1:B3",
+         "title":"Events"
+      }
+   ],
+   "df":{ 
+      "Budget":[ 
+         10000,
+         15000,
+         20000
+      ],
+      "Events":[ 
+         "A",
+         "B",
+         "C"
+      ]
+   }
+}
+
+excelReport = requests.post("http://excel.iofact.com/api/excel_export", json=data)
+```
+
+
 
 #### Code Example
 ```python
