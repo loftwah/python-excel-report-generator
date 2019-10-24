@@ -60,7 +60,9 @@ JsonDf = json.dumps(dfJson)
 Now the data could be prepare for the api request. 
 
 **url = "http://excel.iofact.com/api/excel_export"**
+
 **request method = post**
+
 **data type = json**
 
 ```python
