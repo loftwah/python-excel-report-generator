@@ -19,7 +19,7 @@ The service accepts a JSON object with two keys from the post request. The first
 'column' A1:A3 will merge the column 1 to 3 of cell A in the excel and then the title value 'Cell information' will kept in this cell. Some more paremeter could be passed in the header. The following code will show how to adjust font and alignment of a cell. By default, font size is 11, font family is Calibri, Boldface, Italic and underline is false, and color is black. 
 
 ```python
-[{
+head_list = [{
     "column": "A11:A13",
     "title": "Cell value",
     "font": {
@@ -40,24 +40,33 @@ The service accepts a JSON object with two keys from the post request. The first
 The second key is "df," where the data will send in the form of JSON, dictionary, or data frame object. A json object of dataframe could be created by the following rules:
 
 ```python
-dfJson = [
-                {
-                 'Title': 'Project Introduction',
-                 'Target': 100,      
-                 'Acheive': 90
-                },
-                {
-                 'Title': 'Project Organization',
-                 'Target': 100,      
-                 'Acheive': 90
-                },
-        ]
+dfJson = [{
+        'Title': 'Project Introduction',
+        'Target': 100,
+        'Acheive': 90
+    },
+    {
+        'Title': 'Project Organization',
+        'Target': 100,
+        'Acheive': 90
+    },
+]
 ```
 If the dataframe will send as json object, than it shoulb be dumps in json from python. It is required to import json library to dumps in json object.
 ```python
 import json
 JsonDf = json.dumps(dfJson)
 ```
+Now the data could be prepare for the api request. 
+
+###### url = "http://excel.iofact.com/api/excel_export"
+###### request method = post
+###### data type = json
+
+```python
+excelReport = requests.post("http://excel.iofact.com/api/excel_export", json={"header": head_List, "df": JsonDf})
+```
+
 
 #### Sample Data preparation (API testing)
 * simple Api Data
