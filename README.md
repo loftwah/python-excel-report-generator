@@ -41,14 +41,14 @@ The second key is "df," where the data will send in the form of JSON, dictionary
 
 ```python
 dfJson = [{
-        'Title': 'Project Introduction',
-        'Target': 100,
-        'Acheive': 90
+        "Title": 'Project Introduction',
+        "Target": 100,
+        "Acheive": 90
     },
     {
-        'Title': 'Project Organization',
-        'Target': 100,
-        'Acheive': 90
+        "Title": "Project Organization",
+        "Target": 100,
+        "Acheive": 90
     },
 ]
 ```
@@ -59,9 +59,9 @@ JsonDf = json.dumps(dfJson)
 ```
 Now the data could be prepare for the api request. 
 
-###### url = "http://excel.iofact.com/api/excel_export"
-###### request method = post
-###### data type = json
+**url = "http://excel.iofact.com/api/excel_export"**
+**request method = post**
+**data type = json**
 
 ```python
 excelReport = requests.post("http://excel.iofact.com/api/excel_export", json={"header": head_List, "df": JsonDf})
