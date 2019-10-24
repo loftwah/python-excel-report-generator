@@ -1,3 +1,8 @@
+"""
+Author: Roomey Rahman
+mail: roomeyrahman@gmail.com
+"""
+
 import pandas as pd
 from openpyxl.workbook import Workbook
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font
