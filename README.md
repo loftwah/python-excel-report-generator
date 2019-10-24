@@ -48,6 +48,12 @@ dfJson = [
                 },
         ]
 ```
+If the dataframe will send as json object, than it shoulb be dumps in json from python. It is required to import json library to dumps in json object.
+```python
+import json
+JsonDf = json.dumps(dfJson)
+```
+
 
 #### Code Example
 ```python
