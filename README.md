@@ -19,7 +19,7 @@ The service accepts a JSON object with two keys from the post request. The first
 'column' A1:A3 will merge the column 1 to 3 of cell A in the excel and then the title value 'Cell information' will kept in this cell. Some more paremeter could be passed in the header. The following code will show how to adjust font and alignment of a cell. By default, font size is 11, font family is Calibri, Boldface, Italic and underline is false, and color is black. 
 
 ```python
-head_list = [{
+header = [{
     "column": "A11:A13",
     "title": "Cell value",
     "font": {
@@ -66,7 +66,7 @@ Now the data could be prepare for the api request.
 **data type = json**
 
 ```python
-excelReport = requests.post("http://excel.iofact.com/api/excel_export", json={"header": head_List, "df": JsonDf})
+excelReport = requests.post("http://excel.iofact.com/api/excel_export", json={"header": header, "df": JsonDf})
 ```
 
 
