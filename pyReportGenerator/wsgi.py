@@ -1,4 +1,7 @@
 """
+Author: Roomey Rahman
+mail: roomeyrahman@gmail.com
+
 WSGI config for pyReportGenerator project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
