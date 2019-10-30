@@ -123,8 +123,8 @@ class ExcelExport(APIView):
 
         try:
             excelReport = reportObj.exportToExcel()
-            # response = FileResponse(excelReport, content_type='application/ms-excel')
-            # response['Content-Disposition'] = 'attachment; filename=ExcelReport'
+            response = FileResponse(excelReport, content_type='application/ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=ExcelReport'
             return excelReport
         except:
             return Response({"success": False}, status=status.HTTP_400_BAD_REQUEST)
