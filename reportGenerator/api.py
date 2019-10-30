@@ -13,6 +13,7 @@ import json
 
 class ExcelExport(APIView):
     def get(self, request, format=None):
+        print("+++++")
         test_head_List = [
             {'column': 'A11:A13',
              'title': 'Activities',
@@ -126,7 +127,7 @@ class ExcelExport(APIView):
             # response['Content-Disposition'] = 'attachment; filename=ExcelReport'
             return excelReport
         except:
-            return Response({"success": True}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"success": False}, status=status.HTTP_400_BAD_REQUEST)
 
     def post(self, *args, **kwargs):
         if self.request.method == "POST":
