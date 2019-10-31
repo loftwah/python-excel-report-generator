@@ -13,7 +13,6 @@ import json
 
 class ExcelExport(APIView):
     def get(self, request, format=None):
-        print("+++++")
         test_head_List = [
             {'column': 'A11:A13',
              'title': 'Activities',
