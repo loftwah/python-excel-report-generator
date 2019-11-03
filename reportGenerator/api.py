@@ -140,15 +140,19 @@ class ExcelExport(APIView):
         if self.request.method == "POST":
             data = self.request.data
 
-            head = data["header"]
+            if "columnHeader" in data:
+                head = data["columnHeader"]
+                headProcessing = HeadProcessing(head)
+                header = headProcessing.header
 
-            ###########Head Processing##########
-            headProcessing = HeadProcessing(head)
-            header = headProcessing.header
-            ####################################
+            else:
+                header = data["explicitColumnHeader"]
 
 
-            df = data["df"]
+            df = data["dataframe"]
+
+            print(type(df))
+
             style = data.get('style', '')
 
             if type(df) == dict:
