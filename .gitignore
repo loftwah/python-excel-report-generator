@@ -1,1 +1,4 @@
 pyReportGenerator/local_settings.py
+__pycache__
+pyReportGenerator/__pycache__
+reportGenerator/__pycache__
