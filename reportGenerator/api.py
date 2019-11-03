@@ -10,6 +10,7 @@ from rest_framework import status
 from django.http import FileResponse
 import pandas as pd
 import json
+from .head_map import HeadProcessing, head
 
 class ExcelExport(APIView):
     def get(self, request, format=None):
@@ -120,6 +121,13 @@ class ExcelExport(APIView):
 
         reportObj = Report(jsonObject=JsonDf, header=test_head_List)
 
+        ##############Test Object##################
+        A = HeadProcessing(head)
+        reportObj = Report(jsonObject=JsonDf, header = A.header)
+        ###########################################
+
+
+
         try:
             excelReport = reportObj.exportToExcel()
             response = FileResponse(excelReport, content_type='application/ms-excel')
@@ -131,16 +139,39 @@ class ExcelExport(APIView):
     def post(self, *args, **kwargs):
         if self.request.method == "POST":
             data = self.request.data
-            header = data["header"]
+
+            head = data["header"]
+
+            ###########Head Processing##########
+            headProcessing = HeadProcessing(head)
+            header = headProcessing.header
+            ####################################
+
+
             df = data["df"]
+            style = data.get('style', '')
 
+            if type(df) == dict:
+                df = pd.DataFrame(df)
 
-            if type(df) == dict or isinstance(df, pd.DataFrame):
-                if type(df) == dict:
-                    df = pd.DataFrame(df)
-                reportObj = Report(df = df, header = header)
+            if type(style) == str and style =='':
+                if isinstance(df, pd.DataFrame):
+                    reportObj = Report(df = df, header = header)
+                else:
+                    reportObj = Report(jsonObject=df, header=header)
             else:
-                reportObj = Report(jsonObject=df, header=header)
+                font = style.get('font', '')
+                fill = style.get('fill', '')
+                border = style.get('border', '')
+                alignment = style.get('alignment', '')
+                number_format = style.get('number_formate', '')
+                protection = style.get('protection', '')
+
+                if isinstance(df, pd.DataFrame):
+                    reportObj = Report(df = df, header = header, font = font, fill = fill, border=border, alignment=alignment, number_format=number_format, protection=protection)
+                else:
+                    reportObj = Report(jsonObject=df, header=header, font = font, fill = fill, border=border, alignment=alignment, number_format=number_format, protection=protection)
+
 
             try:
                 excelReport = reportObj.exportToExcel()

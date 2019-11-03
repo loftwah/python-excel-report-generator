@@ -12,135 +12,6 @@ import json
 
 from django.http import HttpResponse
 
-head = [
-    {'title': 'A'},
-    {'title': 'B',
-     'children':
-         [
-             {'title': 'C'},
-             {'title': 'X'},
-             {'title': 'D',
-              'children': [
-                  {'title': 'E'},
-                  {'title': 'F'}
-              ]
-              }
-         ],
-     },
-    {
-        'title': 'G',
-        'children': [
-             {'title': 'H'},
-             {'title': 'J'},
-             {'title': 'I',
-              'children': [
-                  {'title': 'K'},
-                  {'title': 'L',
-                   'children': [
-                        {'title': 'H'},
-                        {'title': 'J'}]
-                   }
-              ]
-              }
-        ]
-    },
-    {
-        'title': 'Z'
-    }
-]
-
-def list_depth(list):
-    """calculate the depth of the list item"""
-    str_list = str(list)
-    counter = 0
-    for i in str_list:
-        if i == "[":
-            counter += 1
-    return (counter)
-
-def max_depth(list):
-    m_depth = 0
-    for i in list:
-        c = list_depth(i)
-        m_depth = max(m_depth, c)
-    return m_depth
-
-def childCount(node):
-    """count the number of child of the tree structure"""
-    sum = 0
-    if 'children' in node:
-        for i in node['children']:
-            if 'children' not in i:
-                sum += 1
-            else:
-                sum += childCount(i)
-        return sum
-    else:
-        return 1
-
-
-def rowColSpan(item, index, maxRowSpan = 1):
-    """calculate rowspan and colspan of the tree"""
-    if 'children' in item:
-        maxRowSpan -= 1
-        for cIndex, i in enumerate(item['children']):
-            rowColSpan(i, cIndex+index, maxRowSpan)
-        item['colspan'] = childCount(item)
-        item['rowspan'] = 1
-        item['index'] = str(index) + ":" + str(index+(item['colspan']))
-    else:
-        item['rowspan'] = maxRowSpan
-        item['colspan'] = 1
-        item['index'] = index
-        index = index + (item['colspan'])
-        # print(index, item)
-
-def headMap(head):
-    for index, item in enumerate(head):
-        if index == 0:
-            rowColSpan(item, index=index, maxRowSpan=max_depth(head) + 1)
-        else:
-            if type(head[index-1]['index']) == int:
-                newIndex = head[index-1]['index'] + 1
-            else:
-                newIndex = int(head[index-1]['index'].split(':')[1])
-            rowColSpan(item, index=newIndex, maxRowSpan=max_depth(head) + 1)
-        # print(index, item)
-        # createCell(item)
-    return head
-
-
-
-
-
-def cell_name(n):
-    string = ""
-    while n > 0:
-        n, remainder = divmod(n - 1, 26)
-        string = chr(65 + remainder) + string
-    return string
-
-from pprint import pprint
-
-
-def createCell(item, rowStart=1):
-    if type(item['index'])==int:
-        item['column'] = cell_name(item['index']+1) + str(rowStart) + ":" + cell_name(item['index']+item['colspan']) + str(rowStart + item['rowspan']-1)
-    else:
-        index = item['index'].split(':')
-        item['column'] = cell_name(int(index[0]) + 1) + str(rowStart) + ":" + cell_name(int(index[1])) + str(rowStart + item['rowspan']-1)
-
-    # pprint(header)
-
-
-
-def headerPreparation(head):
-    for item in head:
-        print(item['title'])
-        createCell(item)
-        print(item['column'])
-        if 'children' in item:
-            headerPreparation(item['children'])
 
 
 
@@ -156,7 +27,7 @@ def headerPreparation(head):
 
 
 
-
+"""
 childrenCount = list()
 
 
@@ -218,17 +89,12 @@ def column_map(head):  # way two
     print(column_head)
 
 
-
-
-
-
-
 def head_length(list):
     counter = 0
     for i in list:
         counter += list_depth(i)
     return counter
-
+"""
 
 class Report:
     border = Border(left=Side(border_style=None,
@@ -354,10 +220,9 @@ class Report:
         for i in self.header:
             cell = i['column']
             title = i['title']
-            if 'font' in i:
-                font = i.get('font')
-            else:
-                font = self.font
+
+            font = i.get('font', self.font)
+
 
             font_size = font.get('font_size') if 'font-size' in font else self.font.size
             font_family = font.get('font_family') if 'font_family' in font else self.font.name
@@ -366,10 +231,8 @@ class Report:
             underline = font.get('underline') if 'underline' in font else self.font.underline
             color = font.get('color') if 'color' in font else self.font.color
 
-            if 'alignment' in i:
-                alignment = i.get('alignment')
-            else:
-                alignment = self.alignment
+            alignment = i.get('alignment', self.alignment)
+
 
             horizontalAlign = alignment.get('horizontal') if 'horizontal' in alignment else self.alignment.horizontal
             verticalAlign = alignment.get('vertical') if 'vertical' in alignment else self.alignment.vertical
@@ -393,6 +256,8 @@ class Report:
             ws[cell_l].alignment = Alignment(horizontal=horizontalAlign,
                                              vertical=verticalAlign
                                              )
+
+            # ws.column_dimensions['A'].width = 10000000
 
         rows = dataframe_to_rows(self.df, header=False, index=False)
 
