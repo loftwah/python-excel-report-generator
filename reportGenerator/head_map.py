@@ -1,3 +1,8 @@
+"""
+Author: Roomey Rahman
+mail: roomeyrahman@gmail.com"""
+
+
 head = [
     {'title': 'A', 'style': {'font': {'font_size': '11', 'font_family': 'Calibri', 'bold': True, 'italic': False,
                       'underline': 'none', 'color': 'FF000000'},
@@ -37,12 +42,66 @@ head = [
     }
 ]
 
+dataframe = [
+    {
+        'A': 'Project Introduction',
+        'B.C': 100,
+        'B.X': 10,
+        'B.D.E': 10,
+        'B.D.F': 10,
+        'G.H': 10,
+        'G.J': 20,
+        'G.I.K': 20,
+        'G.I.L.H': 40,
+        'G.I.L.J': 40,
+        'Z': 40
+    },
+    {
+        'A': 'Project Introduction',
+        'B.C': 100,
+        'G.H': 10,
+        'G.J': 20,
+        'G.I.K': 20,
+        'G.I.L.H': 40,
+        'G.I.L.J': 40,
+        'Z': 40
+    },
+    {
+        'A': 'Project Introduction',
+        'B.C': 100,
+        'B.X': 10,
+        'B.D.E': 10,
+        'B.D.F': 10,
+        'G.I.K': 20,
+        'G.I.L.H': 40,
+        'G.I.L.J': 40,
+        'Z': 40
+    }
+]
 
-class HeadProcessing:
-    def __init__(self, head):
-        self.headDepth = self.max_depth(head)
-        self.head = self.headMap(head)
-        self.header = self.headerPreparation(self.head)
+import pandas as pd
+
+
+class ExcelDataProcessing:
+    def __init__(self, head, tableData, headType = 0):
+        """
+        :param head: will receive a list which will be the excel column headline data. Each item of the head will be a dictionary type.
+        :param tableData: tabelData is the cell row value of excel report
+        :param headType: headType is either 0 or any other number. if column head have no column information and user explicitly identify the column cell information then
+        headType will be any other number except 0.
+        """
+        if headType == 0:
+            self.headDepth = self.max_depth(head)
+            self.head = self.headMap(head)
+            (self.header, self.dataKeyMap) = self.headerPreparation(self.head)
+
+        else:
+            self.header = head
+
+        if type(tableData) == dict:
+            self.dataframe = pd.DataFrame(tableData)
+        else:
+            self.dataframe = self.dataMaping(tableData, self.dataKeyMap)
 
 
     def list_depth(self, List):
@@ -129,7 +188,7 @@ class HeadProcessing:
         return item
 
 
-    def headerPreparation(self, head, header = list()):
+    def headerPreparation(self, head, header = list(), dataKeyMap = dict(), parent = ''):
         for item in head:
             if 'style' in item:
                 item['font'] = item['style'].get('font')
@@ -137,5 +196,22 @@ class HeadProcessing:
             header.append(self.createCell(item))
 
             if 'children' in item:
-                self.headerPreparation(item['children'], header)
-        return header
+                self.headerPreparation(item['children'], header, dataKeyMap, parent= (parent + item['title']+'.'))
+            else:
+                dataKeyMap[(parent + item['title'])] = list()
+
+        return (header, dataKeyMap)
+
+
+    def dataMaping(self, tableData, dataKeyMap):
+        headKeys = list(dataKeyMap.keys())
+        for item in tableData:
+            for i in headKeys:
+                if i in item:
+                    self.dataKeyMap[i].append(item[i])
+                else:
+                    self.dataKeyMap[i].append('')
+
+        dataframe = pd.DataFrame(self.dataKeyMap)
+        return dataframe
+
