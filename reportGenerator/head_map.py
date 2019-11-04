@@ -4,78 +4,78 @@ mail: roomeyrahman@gmail.com"""
 
 
 head = [
-    {'title': 'A', 'style': {'font': {'font_size': '11', 'font_family': 'Calibri', 'bold': True, 'italic': False,
+    {'title': 'A', 'key': 'a', 'style': {'font': {'font_size': '11', 'font_family': 'Calibri', 'bold': True, 'italic': False,
                       'underline': 'none', 'color': 'FF000000'},
              'alignment': {'horizontal': 'center', 'vertical': 'center'}}},
-    {'title': 'B',
+    {'title': 'B', 'key': 'b',
      'children':
          [
-             {'title': 'C'},
-             {'title': 'X'},
-             {'title': 'D',
+             {'title': 'C', 'key': 'c'},
+             {'title': 'X', 'key': 'x'},
+             {'title': 'D', 'key': 'd',
               'children': [
-                  {'title': 'E'},
-                  {'title': 'F'}
+                  {'title': 'E', 'key': 'e'},
+                  {'title': 'F', 'key': 'f'}
               ]
               }
          ],
      },
     {
-        'title': 'G',
+        'title': 'G', 'key': 'g',
         'children': [
-             {'title': 'H'},
-             {'title': 'J'},
-             {'title': 'I',
+             {'title': 'H', 'key': 'h'},
+             {'title': 'J', 'key': 'j'},
+             {'title': 'I', 'key': 'i',
               'children': [
-                  {'title': 'K'},
-                  {'title': 'L',
+                  {'title': 'K', 'key': 'k'},
+                  {'title': 'L', 'key': 'l',
                    'children': [
-                        {'title': 'H'},
-                        {'title': 'J'}]
+                        {'title': 'H', 'key': 'h'},
+                        {'title': 'J', 'key': 'j'}]
                    }
               ]
               }
         ]
     },
     {
-        'title': 'Z'
+        'title': 'Z', 'key': 'z'
     }
 ]
 
 dataframe = [
     {
-        'A': 'Project Introduction',
-        'B.C': 100,
-        'B.X': 10,
-        'B.D.E': 10,
-        'B.D.F': 10,
-        'G.H': 10,
-        'G.J': 20,
-        'G.I.K': 20,
-        'G.I.L.H': 40,
-        'G.I.L.J': 40,
-        'Z': 40
+        'a': 'Project Introduction',
+        'b.c': 100,
+        'b.x': 10,
+        'b.d.e': 10,
+        'b.d.f': 10,
+        'g.h': 10,
+        'g.j': 20,
+        'g.i.k': 20,
+        'g.i.l.h': 40,
+        'g.i.l.j': 40,
+        'z': 40
     },
     {
-        'A': 'Project Introduction',
-        'B.C': 100,
-        'G.H': 10,
-        'G.J': 20,
-        'G.I.K': 20,
-        'G.I.L.H': 40,
-        'G.I.L.J': 40,
-        'Z': 40
+        'a': 'Project Introduction',
+        'b.c': 100,
+        'g.h': 10,
+        'g.j': 20,
+        'g.i.k': 20,
+        'g.i.l.h': 40,
+        'g.i.l.j': 40,
+        'z': 40
     },
     {
-        'A': 'Project Introduction',
-        'B.C': 100,
-        'B.X': 10,
-        'B.D.E': 10,
-        'B.D.F': 10,
-        'G.I.K': 20,
-        'G.I.L.H': 40,
-        'G.I.L.J': 40,
-        'Z': 40
+        'a': 'Project Introduction',
+        'b.c': 100,
+        'b.x': 10,
+        'b.d.e': 10,
+        'b.d.f': 10,
+        'g.i.k': 20,
+        'g.i.l.h': 40,
+        'g.i.l.j': 40,
+        'z': 40
     }
 ]
 
@@ -196,9 +196,9 @@ class ExcelDataProcessing:
             header.append(self.createCell(item))
 
             if 'children' in item:
-                self.headerPreparation(item['children'], header, dataKeyMap, parent= (parent + item['title']+'.'))
+                self.headerPreparation(item['children'], header, dataKeyMap, parent=(parent + item['key']+'.'))
             else:
-                dataKeyMap[(parent + item['title'])] = list()
+                dataKeyMap[(parent + item['key'])] = list()
 
         return (header, dataKeyMap)
 
