@@ -63,7 +63,8 @@ class ExcelExport(APIView):
                     raise Exception("columnHeader must be a list of dictionary")
 
             except:
-                raise Exception("Column Head is undefined or not properly Set")
+                # raise Exception("Column Head is undefined or not properly Set")
+                return Response({"success": False, "message": "Column Head is undefined or not properly Set"}, status=status.HTTP_400_BAD_REQUEST)
 
             excelMap = ExcelDataProcessing(head, tableData, headType)
             header = excelMap.header
@@ -97,7 +98,8 @@ class ExcelExport(APIView):
                 return response
 
             except:
-                raise Exception("excelReport server Error")
+                # raise Exception("excelReport server Error")
+                return Response({"success": False, "message": "A"}, status=status.HTTP_400_BAD_REQUEST)
 
         else:
             return Response({"success": False}, status=status.HTTP_400_BAD_REQUEST)
