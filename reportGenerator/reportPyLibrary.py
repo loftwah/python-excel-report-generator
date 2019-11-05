@@ -183,7 +183,7 @@ class Report:
                                        wrap_text=False,
                                        shrink_to_fit=False,
                                        indent=0)
-        elif type(fill) == dict:
+        elif type(alignment) == dict:
             self.alignment = Alignment(horizontal=alignment.get('alignment') if 'alignment' in alignment else 'general',
                                        vertical=alignment.get('vertical') if 'vertical' in alignment else 'bottom',
                                        text_rotation=alignment.get(
