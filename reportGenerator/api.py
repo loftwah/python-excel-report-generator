@@ -9,16 +9,71 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import FileResponse
 import pandas as pd
-import json
 from .head_map import ExcelDataProcessing, head, dataframe
+import re
 
 class ExcelExport(APIView):
     def get(self, request, format=None):
+        topHeader = [{
+                        'column': 'A1:R1',
+                        'title': 'Md. Ataur Rahman Bhuiyan',
+                        'font': {
+                            'font_size': '16',
+                            'font_family': 'Calibri',
+                            'bold': 'True',
+                            'italic': 'False',
+                            'underline': 'none',
+                            'color': 'FF000000'
+                        },
+                        'alignment': {
+                            'horizontal': 'center',
+                            'vertical': 'center'
+                        }
+                    }, {
+                        'column': 'A2:R2',
+                        'title': 'roomeyrahman@gmail.com',
+                        'font': {
+                            'font_size': '14',
+                            'font_family': 'Calibri',
+                            'bold': 'True',
+                            'italic': 'False',
+                            'underline': 'none',
+                            'color': 'FF000000'
+                        },
+                        'alignment': {
+                            'horizontal': 'center',
+                            'vertical': 'center'
+                        }
+                    }]
 
+        max_row = -1
+        for item in topHeader:
+            if type(item) != dict:
+                return Response({"success": False, "message": "topHeader's value must be a dictionary"},
+                                status=status.HTTP_400_BAD_REQUEST)
+
+            try:
+                cell = item["column"]
+                cell_splt = cell.split(':')
+                cell_l = cell_splt[0]
+                cell_r = cell_splt[1]
+
+                max_row = max(max_row, int(re.match(r"([a-z]+)([0-9]+)", cell_l, re.I).groups()[1]))
+                max_row = max(max_row, int(re.match(r"([a-z]+)([0-9]+)", cell_r, re.I).groups()[1]))
+            except:
+                return Response({"success": False, "message": "column is not specify in topHeader's value"},
+                                status=status.HTTP_400_BAD_REQUEST)
 
         ##############Test Object##################
-        A = ExcelDataProcessing(head, dataframe)
-        reportObj = Report(df = A.dataframe, header = A.header)
+        excelMap = ExcelDataProcessing(head, dataframe, rowStart= max_row+2)
+
+        header = excelMap.header
+        df = excelMap.dataframe
+
+        for item in topHeader:
+            header.append(item)
+
+        reportObj = Report(df = df, header = header)
         ###########################################
 
 
@@ -42,7 +97,8 @@ class ExcelExport(APIView):
                 if type(tableData) == dict:
                     for item in tableData:
                         if tableData[item]!=list:
-                            raise Exception(message)
+                            return Response({"success": False, "message": message}, status=status.HTTP_400_BAD_REQUEST)
+
                         break
                 elif type(tableData)!= list:
                     raise Exception(message)
@@ -66,9 +122,39 @@ class ExcelExport(APIView):
                 # raise Exception("Column Head is undefined or not properly Set")
                 return Response({"success": False, "message": "Column Head is undefined or not properly Set"}, status=status.HTTP_400_BAD_REQUEST)
 
-            excelMap = ExcelDataProcessing(head, tableData, headType)
+            max_row = -1
+            try:
+                topHeader = data["topHeader"]
+                print(topHeader)
+                if type(topHeader) != list:
+                    return Response({"success": False, "message": "topHeader must be a list"}, status=status.HTTP_400_BAD_REQUEST)
+
+                for item in topHeader:
+                    if type(item) != dict:
+                        return Response({"success": False, "message": "topHeader's value must be a dictionary"}, status=status.HTTP_400_BAD_REQUEST)
+
+                    try:
+                        cell = item["column"]
+                        cell_splt = cell.split(':')
+                        cell_l = cell_splt[0]
+                        cell_r = cell_splt[1]
+
+                        max_row = max(max_row, int(re.match(r"([a-z]+)([0-9]+)", cell_l, re.I).groups()[1]))
+                        max_row = max(max_row, int(re.match(r"([a-z]+)([0-9]+)", cell_r, re.I).groups()[1]))
+                    except:
+                        return Response({"success": False, "message": "column is not specify in topHeader's value"}, status=status.HTTP_400_BAD_REQUEST)
+
+            except:
+                pass
+
+
+            excelMap = ExcelDataProcessing(head, tableData, headType, rowStart= max_row +2)
             header = excelMap.header
             df = excelMap.dataframe
+
+            if "topHeader" in data:
+                for item in data["topHeader"]:
+                    header.append(item)
 
             style = data.get('style', '')
 
