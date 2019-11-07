@@ -11,6 +11,7 @@ from django.http import FileResponse
 import pandas as pd
 from .head_map import ExcelDataProcessing, head, dataframe
 import re
+import json
 
 class ExcelExport(APIView):
     def get(self, request, format=None):
@@ -21,7 +22,6 @@ class ExcelExport(APIView):
                             'font_size': '16',
                             'font_family': 'Calibri',
                             'bold': 'True',
-                            'italic': 'False',
                             'underline': 'none',
                             'color': 'FF000000'
                         },
@@ -94,14 +94,19 @@ class ExcelExport(APIView):
                 tableData = data["tableData"]
                 message = """cell data can be send either columnwise or rowwise. If you want to send row wise data then tableData must be a list of dictionary.
                             Otherwise tabelData must be dictionary. Each item of the dictionary must be list of column value."""
-                if type(tableData) == dict:
-                    for item in tableData:
-                        if tableData[item]!=list:
-                            return Response({"success": False, "message": message}, status=status.HTTP_400_BAD_REQUEST)
+                # if type(tableData) == dict:
+                #     for item in tableData:
+                #         print(type(item))
+                #         # if type(tableData[item])!=list:
+                #             # return Response({"success": False, "message": message}, status=status.HTTP_400_BAD_REQUEST)
+                #         break
+                # elif type(tableData)!= list:
+                #     raise Exception(message)
 
-                        break
-                elif type(tableData)!= list:
-                    raise Exception(message)
+                if type(tableData)!=list:
+                    if type(tableData)!=dict:
+                        return Response({"success": False, "message": message}, status=status.HTTP_400_BAD_REQUEST)
+
 
             except:
                 raise Exception("tableData is undefined or not properly set")
