@@ -2,3 +2,5 @@ pyReportGenerator/local_settings.py
 __pycache__
 pyReportGenerator/__pycache__
 reportGenerator/__pycache__
+debug.log
+Excel.log
