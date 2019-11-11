@@ -87,7 +87,7 @@ class ExcelExport(APIView):
             return Response({"success": False}, status=status.HTTP_400_BAD_REQUEST)
 
     def post(self, *args, **kwargs):
-        if self.request.method == "POST":
+        # if self.request.method == "POST":
             data = self.request.data
 
             try:
@@ -130,7 +130,7 @@ class ExcelExport(APIView):
             max_row = -1
             try:
                 topHeader = data["topHeader"]
-                print(topHeader)
+                # print(topHeader)
                 if type(topHeader) != list:
                     return Response({"success": False, "message": "topHeader must be a list"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -190,7 +190,7 @@ class ExcelExport(APIView):
 
             except:
                 # raise Exception("excelReport server Error")
-                return Response({"success": False, "message": "A"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"success": False, "message": "Data is not properly loaded"}, status=status.HTTP_400_BAD_REQUEST)
 
-        else:
-            return Response({"success": False}, status=status.HTTP_400_BAD_REQUEST)
+        # else:
+        #     return Response({"success": False}, status=status.HTTP_400_BAD_REQUEST)
