@@ -212,6 +212,6 @@ class ExcelDataProcessing:
                 else:
                     self.dataKeyMap[i].append('')
 
-        dataframe = pd.DataFrame(self.dataKeyMap)
+        dataframe = pd.DataFrame.from_dict(self.dataKeyMap)
         return dataframe
 
